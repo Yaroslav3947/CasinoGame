@@ -21,10 +21,10 @@ void MainProblem() {
         std::cout << "1. Hard Casino 1...10" << std::endl;
         std::cout << "2. Color Casino" << std::endl;
        
-        std::string StringCasinoChoice;
-        std::getline(std::cin,StringCasinoChoice);
+        // std::string StringCasinoChoice;
+        // std::getline(std::cin,StringCasinoChoice);
+        // CasinoChoice = std::stoi(StringCasinoChoice);
         std::cin >> CasinoChoice;
-        CasinoChoice = std::stoi(StringCasinoChoice);
         switch (CasinoChoice) {
         case 1: {
             HardCasinoRules();
@@ -37,10 +37,9 @@ void MainProblem() {
             break;
         }
 
-        default: {
-            std::cout << "We have only 2 types of casino, sorry......" << std::endl; 
-            break;
-            }
+        default: 
+            std::cout << "We have only 2 types of casino, sorry......" << std::endl; break;
+
         }
     } while (CasinoChoice != 1 || CasinoChoice != 2);
 }

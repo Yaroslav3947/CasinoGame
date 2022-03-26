@@ -18,50 +18,52 @@ void HardCasinoRules() {
 
 void HardCasino1To10(const std::string& PlayerName) {
     srand(time(NULL));
-    int BettingAnount;
-    int GuessNumber;
-    int BiggestBalance;
-    int dice;
+    int GuessNumber = 0;
+    int BettingAmount = 0;
     char choice;
     std::vector < int > BiggestBalanceVec;
 
     std::cout << "Choose your starting balance to play game : $";
+    // std::string StringBalance;
+    // std::getline(std::cin,StringBalance );
+    // int balance = std::stoi(StringBalance);
     int balance;
-    std::string StringBalance;
-    std::getline(std::cin,StringBalance );
-    int balance = std::stoi(StringBalance);
+    std::cin >> balance;
     do {
         system("cls");
         std::cout << "Your current balance is $" << balance << std::endl;
         do {
-            std::cout << "Hey, " << PlayerName << "lets start, enter your amount to bet: $" ;
-            std::string StringBettingAnount;
-            std::getline(std::cin,StringBettingAnount );
-            int BettingAnount = std::stoi(StringBettingAnount);
-            if( BettingAnount > balance){
+            std::cout << "Hey, " << PlayerName << " ,lets start, enter your amount to bet: $" ;
+            // std::string StringBettingAnount;
+            // std::getline(std::cin,StringBettingAnount );
+            // BettingAmount = std::stoi(StringBettingAnount);
+            std::cin >> BettingAmount;
+            if( BettingAmount > balance){
                 std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
                 std::cout << "Re-enter your balance" << std::endl;
             } 
-        } while(BettingAnount > balance);
+        } while(BettingAmount > balance);
 
         do {
             std::cout << "Guess any number beetween 1 and 10 : ";
-            std::string StringGuessNumber;
-            std::getline(std::cin,StringGuessNumber );
-            int GuessNumber = std::stoi(StringGuessNumber);
+            // std::string StringGuessNumber;
+            // std::getline(std::cin,StringGuessNumber );
+            // int GuessNumber = std::stoi(StringGuessNumber);
+           
+            std::cin >> GuessNumber;
             if (GuessNumber<=0 || GuessNumber>10){
                 std::cout << "Your guess must be between 1 and 10" << std::endl;
                 std::cout << "Re-enter your guessnumber" << std::endl;
             }
 
         } while(GuessNumber <=0 || GuessNumber>10);
-        dice = rand()%10+1;
+        int dice = rand()%10+1;
         if (dice == GuessNumber) {
-            balance+=BettingAnount*10;
+            balance+=BettingAmount*10;
             std::cout << "You're in a luck!! You have won $" << GuessNumber*10 << std::endl;
         } else {
-            balance-=BettingAnount;
-            std::cout << "Ooops, better luck next time! You have lost $" << BettingAnount << std::endl; 
+            balance-=BettingAmount;
+            std::cout << "Ooops, better luck next time! You have lost $" << BettingAmount << std::endl; 
             std::cout << "The winning number was " << dice << std::endl;
         }
         std::cout << PlayerName << ", your balance is $" << balance << std::endl;

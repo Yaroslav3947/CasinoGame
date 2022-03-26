@@ -19,16 +19,13 @@ void ColorCasinoRules() {
 
 void ColorCasino(const std::string&  PlayerName) {
     srand(time(NULL));
-    int BettingAmount;
-    int guessColor;
-    int BiggestBalance;
+    int BettingAmount = 0;
     int dice;
     char choice;
     char color;
     std::vector<int> BiggestBalanceVec;
 
     std::cout << "Choose your starting balance to play game : $";
-    int balance;
     std::string StringBalance;
     std::getline(std::cin,StringBalance );
     int balance = std::stoi(StringBalance);
@@ -38,9 +35,10 @@ void ColorCasino(const std::string&  PlayerName) {
         std::cout << "Your current balance is $" << balance << std::endl;
         do {
             std::cout << "Hey, " << PlayerName << ", lets start, enter your amount to bet: $";
-            std::string StringBettingAnount;
-            std::getline(std::cin,StringBettingAnount );
-            int BettingAnount = std::stoi(StringBettingAnount);
+            // std::string StringBettingAnount;
+            // std::getline(std::cin,StringBettingAnount );
+            // BettingAmount = std::stoi(StringBettingAnount);
+            std::cin >> BettingAmount;
             if (BettingAmount > balance) {
                 std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
                 std::cout << "Re-enter your balance" << std::endl;
