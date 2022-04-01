@@ -5,33 +5,43 @@
 #include <algorithm>
 #include <iostream>
 
+std::string PlayerName;
+
+enum playerChoices {
+    HARD_CASINO = 1,
+    COLOR_CASINO = 2,
+};
+
 int BiggestBalanceFunction(std::vector<int> BalanceVector) {
     sort(BalanceVector.begin(), BalanceVector.end());
     return BalanceVector[BalanceVector.size() - 1];
 }
-
-void MainProblem() {
-     int CasinoChoice;
+void AcquaintanceWithThePlayer() {
     std::cout << "\t\t=====WELCOME TO CASINO WORLD=====" << std::endl;
     std::cout << "What is your name? ";
-    std::string PlayerName;
     std::getline(std::cin, PlayerName);
-    do {
+}
+void GetChoiceOfSelection() {
         std::cout << PlayerName << ", which type of casino you want to choose?" << std::endl;
         std::cout << "1. Hard Casino 1...10" << std::endl;
         std::cout << "2. Color Casino" << std::endl;
+}
+void DoPlayerChoice() {
+    int CasinoChoice;
+     do {
+
+        GetChoiceOfSelection();
        
-        // std::string StringCasinoChoice;
-        // std::getline(std::cin,StringCasinoChoice);
-        // CasinoChoice = std::stoi(StringCasinoChoice);
+        
         std::cin >> CasinoChoice;
+        
         switch (CasinoChoice) {
-        case 1: {
+        case HARD_CASINO: {
             HardCasinoRules();
             HardCasino1To10(PlayerName);
             break;
         }
-        case 2: {
+        case COLOR_CASINO: {
             ColorCasinoRules();
             ColorCasino(PlayerName);
             break;
@@ -42,4 +52,10 @@ void MainProblem() {
 
         }
     } while (CasinoChoice != 1 || CasinoChoice != 2);
+}
+
+void MainProblem() {
+    
+    AcquaintanceWithThePlayer();
+    DoPlayerChoice();
 }
