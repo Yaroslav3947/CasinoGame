@@ -7,6 +7,9 @@
 #include <vector>
 #include <algorithm>
 
+enum Instruments {
+    CONTINUE_GAME = 'f',
+};
 void HardCasinoRules() {
     system("cls");
     std::cout << "\t\t=====CASINO NUMBER GUESSING RULES=====" << std::endl;
@@ -22,11 +25,7 @@ void HardCasino1To10(const std::string& PlayerName) {
     int BettingAmount = 0;
     char choice;
     std::vector < int > BiggestBalanceVec;
-
     std::cout << "Choose your starting balance to play game : $";
-    // std::string StringBalance;
-    // std::getline(std::cin,StringBalance );
-    // int balance = std::stoi(StringBalance);
     int balance;
     std::cin >> balance;
     do {
@@ -34,9 +33,6 @@ void HardCasino1To10(const std::string& PlayerName) {
         std::cout << "Your current balance is $" << balance << std::endl;
         do {
             std::cout << "Hey, " << PlayerName << " ,lets start, enter your amount to bet: $" ;
-            // std::string StringBettingAnount;
-            // std::getline(std::cin,StringBettingAnount );
-            // BettingAmount = std::stoi(StringBettingAnount);
             std::cin >> BettingAmount;
             if( BettingAmount > balance){
                 std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
@@ -46,9 +42,7 @@ void HardCasino1To10(const std::string& PlayerName) {
 
         do {
             std::cout << "Guess any number beetween 1 and 10 : ";
-            // std::string StringGuessNumber;
-            // std::getline(std::cin,StringGuessNumber );
-            // int GuessNumber = std::stoi(StringGuessNumber);
+            
            
             std::cin >> GuessNumber;
             if (GuessNumber<=0 || GuessNumber>10){
@@ -73,10 +67,10 @@ void HardCasino1To10(const std::string& PlayerName) {
             std::cout << "You have no money to play";
             break;
         }
-        std::cout << "Do you want to play again? If yes, press F" << std::endl;
+        std::cout << "Do you want to play again? If yes, press f" << std::endl;
         std::cin >> choice;
-    } while(choice == 'F' || choice == 'f');
+    } while(choice == CONTINUE_GAME );
     std::cout << std::endl;
-    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalanceFunction(BiggestBalanceVec) << std::endl;
+    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalance(BiggestBalanceVec) << std::endl;
 
 }

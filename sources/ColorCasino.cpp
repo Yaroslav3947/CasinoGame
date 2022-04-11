@@ -5,14 +5,9 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <set>
 
-
-std::vector<int> BiggestBalanceVec;
-int BettingAmount = 0;
-int balance;
-int dice;
-char choice;
-char color;
+const int NumberOfRouletteSectors = 38;
 
 enum ColorSelection {
     GREEN_COLOR = 'g',
@@ -33,86 +28,99 @@ void ColorCasinoRules() {
     std::cout << std::endl;
 }
 int GetBalance() {
-    std::string StringBalance;
+    int Balance;
     std::cout << "Choose your starting balance to play game : $";
-    std::getline(std::cin,StringBalance );
-    return std::stoi(StringBalance);
+    std::cin >> Balance;
+    return Balance;
 }
-void GetAndCheckBettingAmount (int balance) {
-        std::cin >> BettingAmount;
-            if (BettingAmount > balance) {
-                std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
-                std::cout << "Re-enter your balance" << std::endl;
-            }
+char GetColor() {
+    char Color;
+    std::cout << "Guess color green(g), red(r), black(b) : ";
+    std::cin >> Color;
+    return Color;
 }
-void InputBetingAmount(std::string PlayerName) {
+int GetBettingAmount () {
+    int BettingAmount;
+    std::cin >> BettingAmount;
+    return BettingAmount;
+}
+void InputBetingAmount(std::string PlayerName, int Balance,int BettingAmount) {
     do {
             std::cout << "Hey, " << PlayerName << ", lets start, enter your amount to bet: $";
-             GetAndCheckBettingAmount(balance);
-        } while (BettingAmount > balance);
+            std::cin >> BettingAmount;
+            if (BettingAmount > Balance) {
+                std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
+                std::cout << "Re-enter your balance" << std::endl;
+            }else continue;
+        } while (BettingAmount > Balance);
 }
-void InputAndCheckSelectionOfColor() {
+
+void InputAndCheckSelectionOfColor(char &Color) {
     do {
-            std::cout << "Guess color green(g), red(r), black(b) : ";
-            std::cin >> color;
-            if (color != GREEN_COLOR && color != BLACK_COLOR && color != RED_COLOR){
+            
+            if (Color != GREEN_COLOR && Color != BLACK_COLOR && Color != RED_COLOR){
                 std::cout << "Your color must be only green, red or black" << std::endl;
                 std::cout << "Re-enter your color" << std::endl;
             }
             else 
                 continue;
-        } while (color != GREEN_COLOR && color != BLACK_COLOR && color != RED_COLOR);
+        } while (Color != GREEN_COLOR && Color != BLACK_COLOR && Color != RED_COLOR);
 }
-void CheckColorAndAmountOfWin() {
-    dice = rand() % 37 + 1;
-        if (dice == 1 && color == GREEN_COLOR) {
-            balance += BettingAmount * 50;
+void CheckColorAndAmountOfWin(int &Balance, char &Color,int &BettingAmount) {
+        int dice = rand() % NumberOfRouletteSectors;
+
+        if (dice == 1 && Color == GREEN_COLOR) {
+            Balance += BettingAmount * 100;
             std::cout << "OMG, you did it!!!!!!!" << std::endl;
             std::cout << "You're in a huge luck!! You have won $" << BettingAmount * 100 << std::endl;
         }
-        else if (dice % 2 == 0 && color == RED_COLOR) {
-            balance += BettingAmount;
+        else if (dice % 2 == 0 && Color == RED_COLOR) {
+            Balance += BettingAmount;
             std::cout << "You're in a luck!! You have won $" << BettingAmount * 2 << std::endl;
         }
-        else if (dice % 2 == 1 && color == BLACK_COLOR) {
-            balance += BettingAmount;
+        else if (dice % 2 == 1 && Color == BLACK_COLOR) {
+            Balance += BettingAmount;
             std::cout << "You're in a luck!! You have won $" << BettingAmount * 2 << std::endl;
         } else {
-            balance -= BettingAmount;
+            Balance -= BettingAmount;
             std::cout << "Heh, luck you in next game, you have lost" << std::endl;
         }
 }
-void ShowBiggestBalance( std::string PlayerName) {
-    std::cout << "Hey, " << PlayerName << ", your balance is $" << balance << std::endl;
-        BiggestBalanceVec.push_back(balance);
+void ShowBalanceAfterGame(std::string PlayerName, int Balance) {
+    std::cout << "Hey, " << PlayerName << ", your balance is $" << Balance << std::endl;
 }
-void EndingOfTheGameAndShowsYourRecords() {
-    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalanceFunction(BiggestBalanceVec) << std::endl;
+void EndingOfTheGameAndShowsYourRecords(std::set<int> BalanceSet) {
+    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalance(BalanceSet) << std::endl;
 }
-
+void ShowYourCurrentBalance(int Balance ) {
+    std::cout << "Your current balance is $" << Balance << std::endl;
+}
+void AnswerChoice() {
+    std::cout << "Do you want to play again? If yes, press f" << std::endl;
+}
 void ColorCasino(const std::string&  PlayerName) {
     srand(time(NULL));
-    balance = GetBalance();
-    
+    std::set<int> BalanceSet;
+    int BettingAmount = GetBettingAmount();
+    int Balance = GetBalance();
+    char Color = GetColor();
+    char Choice;
     do {
         system("cls");
-        std::cout << "Your current balance is $" << balance << std::endl;
-
-        InputBetingAmount(PlayerName);
-
-        InputAndCheckSelectionOfColor();
-        
-        CheckColorAndAmountOfWin();
-
-        ShowBiggestBalance(PlayerName);
-
-        if (balance == 0) {
+        ShowYourCurrentBalance(Balance);
+        InputBetingAmount(PlayerName,Balance,BettingAmount);
+        InputAndCheckSelectionOfColor(Color);
+        CheckColorAndAmountOfWin(Balance,Color,BettingAmount);
+        ShowBalanceAfterGame(PlayerName,Balance);
+        BalanceSet.insert(Balance);
+        if (Balance == 0) {
             std::cout << "You have no money to play";
             break;
         }
-        std::cout << "Do you want to play again? If yes, press f" << std::endl;
-        std::cin >> choice;
-    } while (choice == CONTINUE_GAME);
+        AnswerChoice();
+        std::cin >> Choice;
+    } while (Choice == CONTINUE_GAME);
     std::cout << std::endl;
-    EndingOfTheGameAndShowsYourRecords();
+    
+    EndingOfTheGameAndShowsYourRecords(BalanceSet);
 }

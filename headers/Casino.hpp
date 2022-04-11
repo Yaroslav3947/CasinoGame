@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <set>
 
-int BiggestBalanceFunction(std::vector<int>BalanceVector);
+int BiggestBalance(std::set<int> BalanceSet);
 void MainProblem();
