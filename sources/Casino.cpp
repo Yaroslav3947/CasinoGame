@@ -14,7 +14,7 @@ enum playerChoices {
 
 int BiggestBalance(std::set<int> BalanceSet) {
     //if(!BalanceSet.empty()){
-    return *BalanceSet.end();
+    return *BalanceSet.rbegin();
     //}else std::cout << "exeption!!!!!" << std::endl; 
 }
 void AcquaintanceWithThePlayer() {
