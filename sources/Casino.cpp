@@ -1,7 +1,6 @@
 #include "Casino.hpp"
 #include "ColorCasino.hpp"
 #include "HardCasino.hpp"
-
 #include <algorithm>
 #include <iostream>
 #include <set>
@@ -15,7 +14,7 @@ enum playerChoices {
 
 int BiggestBalance(std::set<int> BalanceSet) {
     //if(!BalanceSet.empty()){
-    return *BalanceSet.begin();
+    return *BalanceSet.end();
     //}else std::cout << "exeption!!!!!" << std::endl; 
 }
 void AcquaintanceWithThePlayer() {

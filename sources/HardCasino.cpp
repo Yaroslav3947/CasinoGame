@@ -24,10 +24,11 @@ void HardCasino1To10(const std::string& PlayerName) {
     int GuessNumber = 0;
     int BettingAmount = 0;
     char choice;
-    std::vector < int > BiggestBalanceVec;
+    std::set < int > BiggestBalanceSet;
     std::cout << "Choose your starting balance to play game : $";
     int balance;
     std::cin >> balance;
+    BiggestBalanceSet.insert(balance);
     do {
         system("cls");
         std::cout << "Your current balance is $" << balance << std::endl;
@@ -61,7 +62,7 @@ void HardCasino1To10(const std::string& PlayerName) {
             std::cout << "The winning number was " << dice << std::endl;
         }
         std::cout << PlayerName << ", your balance is $" << balance << std::endl;
-        BiggestBalanceVec.push_back(balance);
+        BiggestBalanceSet.insert(balance);
         
         if(balance == 0) {
             std::cout << "You have no money to play";
@@ -71,6 +72,6 @@ void HardCasino1To10(const std::string& PlayerName) {
         std::cin >> choice;
     } while(choice == CONTINUE_GAME );
     std::cout << std::endl;
-    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalance(BiggestBalanceVec) << std::endl;
+    std::cout << "Thanks for playing the game.Your Biggest balance was $" << BiggestBalance(BiggestBalanceSet) << std::endl;
 
 }

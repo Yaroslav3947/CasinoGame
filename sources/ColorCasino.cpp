@@ -15,6 +15,7 @@ enum ColorSelection {
     RED_COLOR = 'r',
     
 };
+ColorSelection value (GREEN_COLOR);
 enum Instruments {
     CONTINUE_GAME = 'f',
 };
@@ -24,40 +25,37 @@ void ColorCasinoRules() {
     std::cout << "\t1. Choose a color: red, green or black" << std::endl;
     std::cout << "\t2. Winner gets 2 times of the money bet if you will guess color(red or black),\n\t but if u will guess green color you will get 100 times money " << std::endl;
     std::cout << "\t3. Wrong bet, and you lose the amount you bet" << std::endl;
-    std::cout << "\t\tLUCK YOU" << std::endl;
+    std::cout << "\t\t\tLUCK YOU" << std::endl;
     std::cout << std::endl;
 }
-int GetBalance() {
+int GetBalance(std::set<int>&BalanceSet) {
     int Balance;
     std::cout << "Choose your starting balance to play game : $";
     std::cin >> Balance;
+    BalanceSet.insert(Balance);
     return Balance;
 }
-char GetColor() {
-    char Color;
-    std::cout << "Guess color green(g), red(r), black(b) : ";
-    std::cin >> Color;
-    return Color;
-}
-int GetBettingAmount () {
+
+int GetBettingAmount (const std::string &PlayerName) {
     int BettingAmount;
+    std::cout << "Hey, " << PlayerName << ", lets start, enter your amount to bet: $";
     std::cin >> BettingAmount;
     return BettingAmount;
 }
 void InputBetingAmount(std::string PlayerName, int Balance,int BettingAmount) {
     do {
-            std::cout << "Hey, " << PlayerName << ", lets start, enter your amount to bet: $";
-            std::cin >> BettingAmount;
             if (BettingAmount > Balance) {
                 std::cout << "Betting balance can't be more than than current balance!!!" << std::endl;
                 std::cout << "Re-enter your balance" << std::endl;
             }else continue;
         } while (BettingAmount > Balance);
 }
-
-void InputAndCheckSelectionOfColor(char &Color) {
-    do {
+int InputAndCheckSelectionOfColor() {
+        char Color;
+        do { 
             
+            std::cout << "Guess color green(g), red(r), black(b) : ";
+            std::cin >> Color;
             if (Color != GREEN_COLOR && Color != BLACK_COLOR && Color != RED_COLOR){
                 std::cout << "Your color must be only green, red or black" << std::endl;
                 std::cout << "Re-enter your color" << std::endl;
@@ -65,6 +63,7 @@ void InputAndCheckSelectionOfColor(char &Color) {
             else 
                 continue;
         } while (Color != GREEN_COLOR && Color != BLACK_COLOR && Color != RED_COLOR);
+        return Color;
 }
 void CheckColorAndAmountOfWin(int &Balance, char &Color,int &BettingAmount) {
         int dice = rand() % NumberOfRouletteSectors;
@@ -101,15 +100,15 @@ void AnswerChoice() {
 void ColorCasino(const std::string&  PlayerName) {
     srand(time(NULL));
     std::set<int> BalanceSet;
-    int BettingAmount = GetBettingAmount();
-    int Balance = GetBalance();
-    char Color = GetColor();
     char Choice;
+    int Balance = GetBalance(BalanceSet);
     do {
-        system("cls");
+        //system("cls");
+        
         ShowYourCurrentBalance(Balance);
+        int BettingAmount = GetBettingAmount(PlayerName);
         InputBetingAmount(PlayerName,Balance,BettingAmount);
-        InputAndCheckSelectionOfColor(Color);
+        char Color = InputAndCheckSelectionOfColor();
         CheckColorAndAmountOfWin(Balance,Color,BettingAmount);
         ShowBalanceAfterGame(PlayerName,Balance);
         BalanceSet.insert(Balance);
